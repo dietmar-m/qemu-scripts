@@ -1,0 +1,14 @@
+#!/bin/bash
+# start windows xp in a virtual machine
+
+EXEC=qemu-system-i386
+MACHINE="-cpu pentium2 -accel kvm -m 512"
+GRAPHICS="-display gtk -vga cirrus"
+SOUND="-soundhw ac97"
+NET="-nic tap,model=ne2k_pci,ifname=tap0,script=no,downscript=no"
+USB="-usb"
+SHARE="-hdb fat:rw:$HOME/qemu/share"
+IMAGE="-drive file=$HOME/qemu/windows-xp.img,format=raw"
+
+$EXEC $MACHINE $GRAPHICS $SOUND $NET $USB $SHARE $IMAGE $*
+

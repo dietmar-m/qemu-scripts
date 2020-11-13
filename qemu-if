@@ -1,0 +1,42 @@
+#!/bin/bash
+# setup network devices for virtual machines
+
+ETH=eno1
+TAPS="tap0 tap1 tap2 tap4"
+BRIDGE=br0
+ROUTE=$(ip route show|grep default|awk '{print $3}')
+
+case $1 in
+start)
+	ip link show dev $BRIDGE >/dev/null 2>&1 && exit 0
+	ADDR=$(ip addr show dev $ETH | grep inet\  | awk '{print $2}')
+	ip link add $BRIDGE type bridge
+	ip link set dev $ETH master $BRIDGE
+	ip address delete $ADDR dev $ETH
+	ip address add $ADDR dev $BRIDGE
+	ip link set dev $BRIDGE up
+	ip route add default via $ROUTE dev $BRIDGE
+	for IF in $TAPS
+	do
+		ip tuntap add dev $IF mode tap
+		ip link set dev $IF master $BRIDGE
+		ip link set dev $IF up
+	done
+	;;
+stop)
+	ip link show dev $BRIDGE >/dev/null 2>&1 || exit 0
+	ADDR=$(ip addr show dev $BRIDGE | grep inet\  | awk '{print $2}')
+	ip link set dev $ETH nomaster
+	ip link del $BRIDGE
+	ip address add $ADDR dev $ETH
+	ip route add default via $ROUTE dev $ETH
+	for IF in $TAPS
+	do
+		ip link del $IF
+	done
+	;;
+*)
+	echo "USAGE: $0 start|stop"
+	;;
+esac
+
