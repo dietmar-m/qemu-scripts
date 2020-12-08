@@ -5,10 +5,15 @@ EXEC=qemu-system-i386
 MACHINE="-cpu pentium2 -accel kvm -m 512"
 GRAPHICS="-display gtk -vga cirrus"
 SOUND="-soundhw ac97"
-NET="-nic tap,model=ne2k_pci,ifname=tap0,script=no,downscript=no"
+if ip link show tap0 >/dev/null 2>&1
+then
+	NET="-nic tap,model=ne2k_pci,ifname=tap0,script=no,downscript=no"
+else
+	NET="-nic user,model=ne2k_pci"
+fi
 USB="-usb"
 SHARE="-hdb fat:rw:$HOME/qemu/share"
 IMAGE="-drive file=$HOME/qemu/windows-xp.img,format=raw"
 
-$EXEC $MACHINE $GRAPHICS $SOUND $NET $USB $SHARE $IMAGE $*
+eval $EXEC $MACHINE $GRAPHICS $SOUND $NET $USB $SHARE $IMAGE $*
 
