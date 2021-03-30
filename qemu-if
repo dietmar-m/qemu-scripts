@@ -2,7 +2,7 @@
 # setup network devices for virtual machines
 
 ETH=eno1
-TAPS="tap0 tap1 tap2 tap4"
+TAPS="tap0 tap1 tap2 tap3"
 BRIDGE=br0
 ROUTE=$(ip route show|grep default|awk '{print $3}')
 
