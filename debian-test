@@ -1,0 +1,22 @@
+#!/bin/bash
+# start debian in a virtual machine
+
+NETIF=tap1
+if ! ip link show $NETIF >/dev/null 2>&1
+then
+	xmessage You need to run qemu-if first
+	exit -1
+fi
+
+NET="-nic tap,model=ne2k_pci,ifname=$NETIF,script=no,downscript=no"
+EXEC=qemu-system-x86_64
+#MACHINE="-cpu pentium2 -accel kvm -m 512"
+MACHINE="-smp cpus=2 -accel kvm -m 1024"
+#GRAPHICS="-display gtk -vga cirrus"
+GRAPHICS="-display gtk"
+#SOUND="-soundhw ac97"
+USB="-usb"
+IMAGE="-drive file=$HOME/qemu/debian-test.img,format=raw"
+
+eval $EXEC $MACHINE $GRAPHICS $SOUND $NET $USB $SHARE $IMAGE $*
+
