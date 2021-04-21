@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/sudo /bin/bash
 # setup network devices for virtual machines
 
 ETH=eno1
