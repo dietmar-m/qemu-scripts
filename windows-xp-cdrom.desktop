@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Windows XP (cdrom)
+Exec=windows-xp -cdrom /dev/cdrom
+Icon=windows
+Terminal=false
+Type=Application
+Categories=Emulators;Game;
+

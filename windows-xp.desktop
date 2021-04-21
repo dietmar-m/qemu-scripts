@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Windows XP
+Exec=windows-xp
+Icon=windows
+Terminal=false
+Type=Application
+Categories=Emulators;Game;
+

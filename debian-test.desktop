@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Debian Test
+Exec=debian-test
+Icon=qemu
+Terminal=false
+Type=Application
+Categories=Emulators;Education;
+
